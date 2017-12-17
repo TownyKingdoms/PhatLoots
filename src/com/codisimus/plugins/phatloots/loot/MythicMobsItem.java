@@ -13,7 +13,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
-import net.elseland.xikage.MythicMobs.Items.MythicItem;
+import io.lumine.xikage.mythicmobs.MythicMobs;
+import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
+import io.lumine.xikage.mythicmobs.items.MythicItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -91,7 +93,10 @@ public class MythicMobsItem extends Loot {
     @Override
     public void getLoot(LootBundle lootBundle, double lootingBonus) {
         int amount = PhatLootsUtil.rollForInt(amountLower, amountUpper);
-        lootBundle.addItem(MythicItem.getMythicItem(itemId).generateItemStack(amount));
+        //lootBundle.addItem(MythicItem.getMythicItem(itemId).generateItemStack(amount));
+        MythicItem mi = MythicMobs.inst().getItemManager().getItem(itemId).get();
+        ItemStack bukkitItemStack = BukkitAdapter.adapt(mi.generateItemStack(amount));
+        lootBundle.addItem(bukkitItemStack);
     }
 
     /**
