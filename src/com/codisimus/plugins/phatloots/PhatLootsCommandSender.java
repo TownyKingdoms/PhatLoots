@@ -14,6 +14,7 @@ import org.bukkit.plugin.Plugin;
  *
  * @author Codisimus
  */
+
 public class PhatLootsCommandSender implements CommandSender {
     private final String NAME = "PhatLoots";
     private final String TAG = "[PhatLoots Command Sender] ";
@@ -103,5 +104,10 @@ public class PhatLootsCommandSender implements CommandSender {
     @Override
     public void setOp(boolean bln) {
         throw new UnsupportedOperationException("Not supported.");
+    }
+
+    @Override
+    public Spigot spigot() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
