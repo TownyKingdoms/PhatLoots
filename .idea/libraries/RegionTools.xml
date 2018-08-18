@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="RegionTools">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/RegionTools.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -18,6 +18,10 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/*
+    A note from Zack:
+    I removed javadoc references for "command", they don't appear to function or do anything.
+*/
 public class CommandHandler implements CommandExecutor {
     private static enum ParameterType {
         STRING, INT, DOUBLE, BOOLEAN, MATERIAL, PLAYER, OFFLINEPLAYER,
@@ -199,7 +203,6 @@ public class CommandHandler implements CommandExecutor {
      * Discovers the correct method to invoke for the given command
      *
      * @param sender The CommandSender who is executing the command
-     * @param command The command which was sent
      * @param args The arguments which were sent with the command
      */
     private void handleCommand(CommandSender sender, CodCommand meta, String[] args) {
@@ -308,6 +311,7 @@ public class CommandHandler implements CommandExecutor {
                     return null;
                 }
             case MATERIAL:
+                // TODO: Fix this so that it's 1.13 compliant
                 return argument.matches("[0-9]+")
                        ? Material.getMaterial(Integer.parseInt(argument))
                        : Material.matchMaterial(argument);
@@ -353,8 +357,6 @@ public class CommandHandler implements CommandExecutor {
     /**
      * Returns the meta of the given command
      *
-     * @param command The command to retrieve the meta for
-     * @param subcommand The subcommand if any
      * @return The CodCommand or null if none was found
      */
     private CodCommand findMeta(CodCommand annotation) {
@@ -384,7 +386,6 @@ public class CommandHandler implements CommandExecutor {
      * Displays a one line usage of the given command
      *
      * @param sender The sender to display the command usage to
-     * @param command The given CodCommand
      */
     private void displayOneLiner(CommandSender sender, CodCommand meta) {
         String cmd = getCommand(meta);
@@ -411,7 +412,6 @@ public class CommandHandler implements CommandExecutor {
      * Displays the usage of the given command
      *
      * @param sender The sender to display the command usage to
-     * @param command The given CodCommand
      */
     private void displayUsage(CommandSender sender, CodCommand meta) {
         String cmd = getCommand(meta);
@@ -423,7 +423,6 @@ public class CommandHandler implements CommandExecutor {
     /**
      * Returns the correctly formatted command
      *
-     * @param command The requested CodCommand
      * @return The command including '/' and any parent command
      */
     private String getCommand(CodCommand meta) {

@@ -13,7 +13,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
-import net.elseland.xikage.MythicMobs.Items.MythicItem;
+import io.lumine.xikage.mythicmobs.items.MythicItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -91,6 +91,7 @@ public class MythicMobsItem extends Loot {
     @Override
     public void getLoot(LootBundle lootBundle, double lootingBonus) {
         int amount = PhatLootsUtil.rollForInt(amountLower, amountUpper);
+        // TODO: Fix this somehow
         lootBundle.addItem(MythicItem.getMythicItem(itemId).generateItemStack(amount));
     }
 
@@ -102,7 +103,7 @@ public class MythicMobsItem extends Loot {
     @Override
     public ItemStack getInfoStack() {
         //A MythicDropsItem is represented by an Enchantment Table
-        ItemStack infoStack = new ItemStack(Material.ENCHANTMENT_TABLE);
+        ItemStack infoStack = new ItemStack(Material.LEGACY_ENCHANTMENT_TABLE);
 
         //Set the display name of the item
         ItemMeta info = Bukkit.getItemFactory().getItemMeta(infoStack.getType());

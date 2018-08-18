@@ -15,6 +15,12 @@ import org.bukkit.plugin.Plugin;
  * @author Codisimus
  */
 public class PhatLootsCommandSender implements CommandSender {
+    // Somehow this fixed it
+    @Override
+    public Spigot spigot() {
+        return null;
+    }
+
     private final String NAME = "PhatLoots";
     private final String TAG = "[PhatLoots Command Sender] ";
 

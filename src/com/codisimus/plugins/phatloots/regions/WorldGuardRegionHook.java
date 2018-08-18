@@ -1,6 +1,6 @@
 package com.codisimus.plugins.phatloots.regions;
 
-import com.sk89q.worldguard.bukkit.WGBukkit;
+//import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import java.util.ArrayList;
@@ -13,7 +13,9 @@ import org.bukkit.Location;
  *
  * @author Codisimus
  */
-public class WorldGuardRegionHook implements RegionHook {
+// TODO: Find someone smarter than I to fix this
+public class WorldGuardRegionHook/* implements RegionHook*/ {
+    /*
     @Override
     public String getPluginName() {
         return "WorldGuard";
@@ -39,5 +41,5 @@ public class WorldGuardRegionHook implements RegionHook {
             regionNames.add(region.getId());
         }
         return regionNames;
-    }
+    }*/
 }

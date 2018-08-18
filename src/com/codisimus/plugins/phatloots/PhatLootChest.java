@@ -20,15 +20,15 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class PhatLootChest {
     private static EnumSet<Material> untriggeredRedstone = EnumSet.of(
-        Material.REDSTONE_WIRE, Material.REDSTONE_COMPARATOR_OFF,
-        Material.REDSTONE_LAMP_OFF, Material.REDSTONE_TORCH_OFF,
-        Material.DIODE_BLOCK_OFF, Material.DISPENSER, Material.DROPPER,
-        Material.NOTE_BLOCK, Material.PISTON_BASE, Material.TNT
+        Material.REDSTONE_WIRE, Material.LEGACY_REDSTONE_COMPARATOR_OFF,
+        Material.LEGACY_REDSTONE_LAMP_OFF, Material.LEGACY_REDSTONE_TORCH_OFF,
+        Material.LEGACY_DIODE_BLOCK_OFF, Material.DISPENSER, Material.DROPPER,
+        Material.NOTE_BLOCK, Material.LEGACY_PISTON_BASE, Material.TNT
     );
     private static EnumSet<Material> triggeredRedstone = EnumSet.of(
-        Material.REDSTONE_WIRE, Material.REDSTONE_COMPARATOR_ON,
-        Material.REDSTONE_LAMP_ON, Material.REDSTONE_TORCH_ON,
-        Material.DIODE_BLOCK_ON, Material.PISTON_BASE
+        Material.REDSTONE_WIRE, Material.LEGACY_REDSTONE_COMPARATOR_ON,
+        Material.LEGACY_REDSTONE_LAMP_ON, Material.LEGACY_REDSTONE_TORCH_ON,
+        Material.LEGACY_DIODE_BLOCK_ON, Material.LEGACY_PISTON_BASE
     );
     private static HashMap<String, PhatLootChest> chests = new HashMap<>(); //Chest Location -> PhatLootChest
     static HashSet<PhatLootChest> chestsToRespawn = new HashSet<>();
@@ -221,7 +221,9 @@ public class PhatLootChest {
         //Only 'spawn' the new chest if it is not triggered to respawn
         if (state == null) {
             target.setType(block.getType());
-            target.setData(block.getData());
+            target.setBlockData(block.getBlockData());
+            // Broken(?)
+            // target.setData(block.getData());
         } else {
             state = target.getState();
         }
@@ -271,7 +273,7 @@ public class PhatLootChest {
         }
 
         if (soundOnBreak) {
-            block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 1, 1);
+            block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1, 1);
         }
     }
 
@@ -714,20 +716,21 @@ public class PhatLootChest {
      */
     private static void trigger(Block block) {
         switch (block.getType()) {
-        case REDSTONE_WIRE: //Toggle the power level
+        // TODO: Find out how to fix this using the new 1.13 system
+        /*case REDSTONE_WIRE: //Toggle the power level
             block.setData((byte) (block.getData() ^ (byte) 15), true);
+            break;*/
+        case LEGACY_REDSTONE_COMPARATOR_OFF: //Turn the Comparator on
+            block.setType(Material.LEGACY_REDSTONE_COMPARATOR_ON, true);
             break;
-        case REDSTONE_COMPARATOR_OFF: //Turn the Comparator on
-            block.setTypeId(Material.REDSTONE_COMPARATOR_ON.getId(), true);
+        case LEGACY_REDSTONE_LAMP_OFF: //Turn the Lamp on
+            block.setType(Material.LEGACY_REDSTONE_LAMP_ON, true);
             break;
-        case REDSTONE_LAMP_OFF: //Turn the Lamp on
-            block.setTypeId(Material.REDSTONE_LAMP_ON.getId(), true);
+        case LEGACY_REDSTONE_TORCH_OFF: //Turn the Torch on
+            block.setType(Material.LEGACY_REDSTONE_TORCH_ON, true);
             break;
-        case REDSTONE_TORCH_OFF: //Turn the Torch on
-            block.setTypeId(Material.REDSTONE_TORCH_ON.getId(), true);
-            break;
-        case DIODE_BLOCK_OFF: //Turn the Diode on
-            block.setTypeId(Material.DIODE_BLOCK_ON.getId(), true);
+        case LEGACY_DIODE_BLOCK_OFF: //Turn the Diode on
+            block.setType(Material.LEGACY_DIODE_BLOCK_ON, true);
             break;
         case DISPENSER: //Dispense
             ((Dispenser) block.getState()).dispense();
@@ -738,25 +741,26 @@ public class PhatLootChest {
         case NOTE_BLOCK: //Play note
             ((NoteBlock) block.getState()).play();
             break;
-        case PISTON_BASE: //Toggle the extended bit
-            block.setData((byte) (block.getData() ^ (byte) 8), true);
-            break;
+        // TODO: Find out how to fix this using the new 1.13 system
+        /*(case LEGACY_PISTON_BASE: //Toggle the extended bit
+            block.set((byte) (block.getData() ^ (byte) 8), true);
+            break;*/
         case TNT: //Replace the TNT with primed TNT
-            block.setTypeId(0);
+            block.setType(Material.AIR);
             TNTPrimed tnt = (TNTPrimed) block.getWorld().spawnEntity(block.getLocation(), EntityType.PRIMED_TNT);
             tnt.setFuseTicks(80);
             break;
-        case REDSTONE_COMPARATOR_ON: //Turn the Comparator off
-            block.setTypeId(Material.REDSTONE_COMPARATOR_OFF.getId(), true);
+        case LEGACY_REDSTONE_COMPARATOR_ON: //Turn the Comparator off
+            block.setType(Material.LEGACY_REDSTONE_COMPARATOR_OFF, true);
             break;
-        case REDSTONE_LAMP_ON: //Turn the Lamp off
-            block.setTypeId(Material.REDSTONE_LAMP_OFF.getId(), true);
+        case LEGACY_REDSTONE_LAMP_ON: //Turn the Lamp off
+            block.setType(Material.LEGACY_REDSTONE_LAMP_OFF, true);
             break;
-        case REDSTONE_TORCH_ON: //Turn the Torch off
-            block.setTypeId(Material.REDSTONE_TORCH_OFF.getId(), true);
+        case LEGACY_REDSTONE_TORCH_ON: //Turn the Torch off
+            block.setType(Material.LEGACY_REDSTONE_TORCH_OFF, true);
             break;
-        case DIODE_BLOCK_ON: //Turn the Diode off
-            block.setTypeId(Material.DIODE_BLOCK_OFF.getId(), true);
+        case LEGACY_DIODE_BLOCK_ON: //Turn the Diode off
+            block.setType(Material.LEGACY_DIODE_BLOCK_OFF, true);
             break;
         default: break;
         }
